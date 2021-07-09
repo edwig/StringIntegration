@@ -73,6 +73,27 @@ SMX_String::SMX_String(const string& p_string)
 {
 }
 
+// CTOR from integer numb1ers
+SMX_String::SMX_String(const int p_number)
+{
+  *this = to_string(p_number);
+}
+
+SMX_String::SMX_String(const unsigned p_number)
+{
+  *this = to_string(p_number);
+}
+
+SMX_String::SMX_String(const INT64 p_number)
+{
+  *this = to_string(p_number);
+}
+
+SMX_String::SMX_String(const UINT64 p_number)
+{
+  *this = to_string(p_number);
+}
+
 BSTR 
 SMX_String::AllocSysString()
 {
@@ -812,6 +833,68 @@ SMX_String::operator+=(const char p_char)
 {
   append(1,p_char);
   return *this;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//
+// Conversion methods
+//
+//////////////////////////////////////////////////////////////////////////
+
+int
+SMX_String::AsInt()
+{
+  return atoi(c_str());
+}
+
+long
+SMX_String::AsLong()
+{
+  return atol(c_str());
+}
+
+unsigned
+SMX_String::AsUnsigned()
+{
+  return (unsigned)atoi(c_str());
+}
+
+INT64
+SMX_String::AsInt64()
+{
+  return _atoi64(c_str());
+}
+
+UINT64
+SMX_String::AsUint64()
+{
+  return (unsigned)_atoi64(c_str());
+}
+
+void
+SMX_String::SetNumber(int p_number,int p_radix /*= 10*/)
+{
+  char buffer[14];
+  _itoa_s(p_number,buffer,14,p_radix);
+  *this = buffer;
+}
+
+void
+SMX_String::SetNumber(unsigned p_number)
+{
+  *this = std::to_string(p_number);
+}
+
+void
+SMX_String::SetNumber(INT64 p_number)
+{
+  *this = std::to_string(p_number);
+}
+
+void
+SMX_String::SetNumber(UINT64 p_number)
+{
+  *this = std::to_string(p_number);
 }
 
 //////////////////////////////////////////////////////////////////////////

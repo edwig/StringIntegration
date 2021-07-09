@@ -50,7 +50,12 @@ public:
   // CTOR from other string
   SMX_String(const SMX_String& p_string);
   // CTOR from std::string
-  SMX_String(const string& p_string);
+  SMX_String(const std::string& p_string);
+  // CTOR from integer numb1ers
+  SMX_String(const int      p_number);
+  SMX_String(const unsigned p_number);
+  SMX_String(const INT64    p_number);
+  SMX_String(const UINT64   p_number);
 
   // Convert String to BSTR. Free it with "SysFreeString"
   BSTR        AllocSysString();
@@ -185,9 +190,21 @@ public:
   SMX_String   operator =(const SMX_String& p_extra);
   SMX_String   operator+=(const char p_char);
 
+  // Extra conversion methods
+  int         AsInt();
+  long        AsLong();
+  unsigned    AsUnsigned();
+  INT64       AsInt64();
+  UINT64      AsUint64();
+
+  void        SetNumber(int      p_number,int p_radix = 10);
+  void        SetNumber(unsigned p_number);
+  void        SetNumber(INT64    p_number);
+  void        SetNumber(UINT64   p_number);
+
 private:
 //   In CString these are in / for StringData 
-//   We do not use it here, as we do not use the same locking scheme
+//   We do not use it here, as we do not use a locking scheme
 //   in a std::string derived class
 //
 //   void      AddRef();

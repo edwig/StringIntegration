@@ -599,11 +599,11 @@ int TestMethods()
   {
     testMFC.SetAt(700,'8');
   }
-  catch(COleException& ex)
+  catch(COleException* ex)
   {
-    char buffer[_MAX_PATH + 1];
-    ex.GetErrorMessage(buffer,_MAX_PATH);
-    printf(buffer);
+    char buffer[1024];
+    ex->GetErrorMessage(buffer,1024,nullptr);
+    // printf("%s\n",buffer);
     caught1 = true;
   }
   catch(...)
@@ -615,9 +615,9 @@ int TestMethods()
   {
     testSMX.SetAt(700,'8');
   }
-  catch(std::exception& ex)
+  catch(std::exception& /*ex*/)
   {
-    ex.what();
+    // printf(ex.what());
     caught2 = true;
   }
   if(caught1 == false || caught2 == false)
@@ -753,6 +753,24 @@ int TestMethods()
   }
   else printf("OK\n");
 
+  // TEST 56: numbers
+  //     "------------------------------------------ : --"
+  printf("TEST 56: Convert string with a number      : ");
+
+  testSMX = "23478";
+  int number = testSMX.AsInt();
+  printf(number == 23478 ? "OK\n" : "ERROR\n");
+  errors += (number != 23478) ? 1 : 0;
+
+  // TEST 57: numbers
+  //     "------------------------------------------ : --"
+  printf("TEST 57: Convert number to string          : ");
+
+  number = 15332;
+  testSMX.SetNumber(number);
+  printf(testSMX.Compare("15332") == 0 ? "OK\n" : "ERROR\n");
+  errors += (number != 15332) ? 1 : 0;
+
   // Result of all tests
   return errors;
 }
@@ -798,7 +816,7 @@ int TestOperators()
   //     Operator array access through an index
   //     "------------------------------------------ : --"
   printf("TEST 04: OPERATOR: []                      : ");
-  if (one[1] != 'n' || two[2] != 'o')
+  if (one[(const unsigned)1] != 'n' || two[(const unsigned) 2] != 'o')
   {
     printf("ERROR\n");
     ++errors;
@@ -864,6 +882,7 @@ int CrossIntegration()
     ++errors;
   }
   else printf("OK\n");
+
   return errors;
 }
 
