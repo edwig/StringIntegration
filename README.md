@@ -84,6 +84,12 @@ There are a few details that you should be aware of, or otherwise the **will** b
 -	Take good care of the “Advanced project settings” in Visual Studio. Especially the “Use MFC” setting;
 -	Take good care of the standard precompiled header settings and any ‘stdafx.h’ that is still in use in your projects. I forgot about them in a good number of projects. Remove the “#include <afx.h>” and other settings or convert to the newer convention of using a “pch.h” file.
 
+### August 2023
+
+This library now supports compilation in Unicode-mode or in standard MBCS-mode
+Choose either one, but be carefull to use the Microsft agreed upon standards to use:
+TCHAR (instead of char), LPCTSTR (instead of 'const char*'), and std::wstring (instead of std::string)
+
 Well that’s about all. Have fun with the “SMX_String”!
 
 

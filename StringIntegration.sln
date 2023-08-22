@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StringIntegration", "StringIntegration.vcxproj", "{C6EEC1F7-3437-484F-9AF1-575ADD593841}"
 EndProject
@@ -13,6 +13,10 @@ Global
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		UnicodeDebug|x64 = UnicodeDebug|x64
+		UnicodeDebug|x86 = UnicodeDebug|x86
+		UnicodeRelease|x64 = UnicodeRelease|x64
+		UnicodeRelease|x86 = UnicodeRelease|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.Debug|x64.ActiveCfg = Debug|x64
@@ -23,6 +27,14 @@ Global
 		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.Release|x64.Build.0 = Release|x64
 		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.Release|x86.ActiveCfg = Release|Win32
 		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.Release|x86.Build.0 = Release|Win32
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeDebug|x64.ActiveCfg = UnicodeDebug|x64
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeDebug|x64.Build.0 = UnicodeDebug|x64
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeDebug|x86.ActiveCfg = UnicodeDebug|Win32
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeDebug|x86.Build.0 = UnicodeDebug|Win32
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeRelease|x64.ActiveCfg = UnicodeRelease|x64
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeRelease|x64.Build.0 = UnicodeRelease|x64
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeRelease|x86.ActiveCfg = UnicodeRelease|Win32
+		{C6EEC1F7-3437-484F-9AF1-575ADD593841}.UnicodeRelease|x86.Build.0 = UnicodeRelease|Win32
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Debug|x64.ActiveCfg = Debug|x64
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Debug|x64.Build.0 = Debug|x64
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Debug|x86.ActiveCfg = Debug|Win32
@@ -31,6 +43,14 @@ Global
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Release|x64.Build.0 = Release|x64
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Release|x86.ActiveCfg = Release|Win32
 		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.Release|x86.Build.0 = Release|Win32
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeDebug|x64.ActiveCfg = UnicodeDebug|x64
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeDebug|x64.Build.0 = UnicodeDebug|x64
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeDebug|x86.ActiveCfg = UnicodeDebug|Win32
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeDebug|x86.Build.0 = UnicodeDebug|Win32
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeRelease|x64.ActiveCfg = UnicodeRelease|x64
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeRelease|x64.Build.0 = UnicodeRelease|x64
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeRelease|x86.ActiveCfg = UnicodeRelease|Win32
+		{38297F9F-DE5F-4A06-A4D0-B23260F85471}.UnicodeRelease|x86.Build.0 = UnicodeRelease|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
