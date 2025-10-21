@@ -2,7 +2,7 @@
 //
 #include "stdafx.h"
 #include "resource.h"
-#include "SMX_String.h"
+#include "XString.h"
 
 // The one and only application object
 
@@ -13,7 +13,7 @@ int TestMethods()
   int errors = 0;
 
   CString testMFC(_T("TestString for MFC/STD/SMX"));
-   String testSMX(_T("TestString for MFC/STD/SMX"));
+  XString testSMX(_T("TestString for MFC/STD/SMX"));
 
 
   // TEST 1: AllocSysString()
@@ -422,7 +422,7 @@ int TestMethods()
   res1 = testMFC.LoadString(IDS_FORMMESSAGE);
   res2 = testSMX.LoadString(IDS_FORMMESSAGE);
   CString substr1 = testMFC.Left(12);
-   String substr2 = testSMX.Left(12);
+  XString substr2 = testSMX.Left(12);
   if(substr1 != CString(substr2.c_str()) || !res1 || !res2)
   {
     _tprintf(_T("ERROR\n"));
@@ -618,9 +618,9 @@ int TestMethods()
   catch(std::exception& ex)
   {
 #ifdef UNICODE
-    tstring error = CA2W(ex.what());
+    stdstring error = CA2W(ex.what());
 #else
-    tstring error = ex.what();
+    stdstring error = ex.what();
 #endif
     _tprintf(_T("ERROR: %s "),error.c_str());
     caught2 = true;
@@ -773,9 +773,9 @@ int TestOperators()
   //     Operator plus
   //     "------------------------------------------ : --"
   _tprintf(_T("TEST 01: OPERATOR: +                       : "));
-  String one(_T("One"));
-  String two(_T("Two"));
-  String result = one + two;
+  XString one(_T("One"));
+  XString two(_T("Two"));
+  XString result = one + two;
   if(result != _T("OneTwo"))
   {
     _tprintf(_T("ERROR\n"));
@@ -786,7 +786,7 @@ int TestOperators()
   //     Operator larger than or equal
   //     "------------------------------------------ : --"
   _tprintf(_T("TEST 02: OPERATOR: >=                      : "));
-  String between(_T("PPP"));
+  XString between(_T("PPP"));
   if(one >= between)
   {
     _tprintf(_T("ERROR\n"));
@@ -826,7 +826,7 @@ int CrossIntegration()
   //     "------------------------------------------ : --"
   _tprintf(_T("TEST 100: CTOR CString from String         : "));
 
-  String test1(_T("This is a teststring: éèëê curaçao."));
+  XString test1(_T("This is a teststring: éèëê curaçao."));
   CString test2(test1);
   if (test2.Compare(_T("This is a teststring: éèëê curaçao.")) != 0)
   {
@@ -853,7 +853,7 @@ int CrossIntegration()
   _tprintf(_T("TEST 103: CTOR String from CString         : "));
 
   CString test3(_T("This is a teststring: éèëê curaçao."));
-  String test4(test1);
+  XString test4(test1);
   if(test4.Compare(_T("This is a teststring: éèëê curaçao.")) != 0)
   {
     _tprintf(_T("ERROR\n"));

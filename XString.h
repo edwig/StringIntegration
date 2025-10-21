@@ -1,11 +1,11 @@
 //////////////////////////////////////////////////////////////////////////
 //
-// File: SMX_String.h
+// File: XString.h
 //
 // Std Mfc eXtension String is a string derived from std::string
 // But does just about everything that MFC CString also does
 // 
-// Copyright (c) 2016-2017 ir. W.E. Huisman MSC
+// Created: 2014-2025 ir. W.E. Huisman MSC
 //
 // Permission is hereby granted, free of charge, to any person obtaining a 
 // copy of this software and associated documentation files(the "Software"), 
@@ -28,39 +28,46 @@
 
 #pragma once
 #include <wtypes.h>
-#include <tchar.h>
 #include <string>
+#include <tchar.h>
 
-using namespace std;
+using std::string;
+using std::wstring;
 
-#ifdef UNICODE
-#define tstring     wstring
-#define to_tstring  to_wstring
+#ifdef _UNICODE
+#define stdstring wstring
+#pragma message("XString is now defined as std::wstring")
 #else
-#define tstring     string
-#define to_tstring  to_string
+#define stdstring string
+#pragma message("XString is now defined as std::string")
 #endif
 
-namespace std
-{
+#pragma warning(disable: 4239)
 
-class SMX_String : public std::tstring
+class XString : public stdstring
 {
 public:
   // Empty CTOR
-  SMX_String();
+  XString();
   // CTOR from character pointer
-  SMX_String(const TCHAR* p_string);
-#ifndef UNICODE
-  // CTOR from unsigned char
-  SMX_String(const _TUCHAR* p_string);
-#endif
+  XString(LPCTSTR p_string);
   // CTOR from a number of characters
-  SMX_String(TCHAR p_char,int p_count);
+  XString(TCHAR p_char,int p_count = 1);
   // CTOR from other string
-  SMX_String(const SMX_String& p_string);
-  // CTOR from std::string
-  SMX_String(const std::tstring& p_string);
+  XString(const XString& p_string);
+  // CTOR from other string
+  XString(const stdstring& p_string);
+#ifdef _UNICODE
+// CTOR form a wchar_t stream
+  XString(wchar_t* p_string);
+  // CTOR from a ANSI string
+  XString(PCSTR p_string);
+#else
+// CTOR from unsigned char stream
+  XString(unsigned char* p_string);
+  // CTOR from unicode string
+  XString(PCWSTR p_string);
+#endif
 
   // Convert String to BSTR. Free it with "SysFreeString"
   BSTR        AllocSysString();
@@ -75,11 +82,11 @@ public:
   // Append a formatted variable list
   void        AppendFormatV(LPCTSTR p_format,va_list p_list);
   void        AppendFormatV(UINT    p_strID, va_list p_list);
-#ifndef UNICODE
+
   // ANSI/OEM Conversions
   void        AnsiToOem();
   void        OemToAnsi();
-#endif
+
   // Collate
   int         Collate(LPCTSTR p_string);
   int         CollateNoCase(LPCTSTR p_string);
@@ -100,14 +107,14 @@ public:
   int         FindOneOf(LPCTSTR p_string) const;
   // Format a string
   void        Format(LPCTSTR p_format,...);
-  void        Format(UINT   p_strID ,...);
-  void        Format(SMX_String p_format,...);
+  void        Format(UINT    p_strID ,...);
+  void        Format(XString p_format,...);
   // Format a variable list
   void        FormatV(LPCTSTR p_format,va_list p_list);
   void        FormatV(UINT    p_strID, va_list p_list);
   // Format a message by system format instead of printf
   void        FormatMessage(LPCTSTR p_format,...);
-  void        FormatMessage(UINT   p_strID, ...);
+  void        FormatMessage(UINT    p_strID, ...);
   // Format a message by system format from variable list
   void        FormatMessageV(LPCTSTR p_format,va_list* p_list);
   void        FormatMessageV(UINT    p_strID, va_list* p_list);
@@ -134,7 +141,7 @@ public:
   // See if string is empty
   bool        IsEmpty() const;
   // Taking the left side of the string
-  SMX_String  Left(int p_length) const;
+  XString     Left(int p_length) const;
   // Locking the buffer
   PCTSTR      LockBuffer();
   // Load a string from the resources
@@ -142,23 +149,23 @@ public:
   BOOL        LoadString(HINSTANCE p_inst,UINT p_strID);
   BOOL        LoadString(HINSTANCE p_inst,UINT p_strID,WORD p_languageID);
   // Make lower/upper case or reverse
-  void        MakeLower();
-  void        MakeReverse();
-  void        MakeUpper();
+  XString&    MakeLower();
+  XString&    MakeReverse();
+  XString&    MakeUpper();
   // Take substring out of the middle
-  SMX_String  Mid(int p_index) const;
-  SMX_String  Mid(int p_index,int p_length) const;
+  XString     Mid(int p_index) const;
+  XString     Mid(int p_index,int p_length) const;
   // Preallocate a string of specified size
   void        Preallocate(int p_length);
   // Remove all occurrences of char
   int         Remove(TCHAR p_char);
   // Replace a string or a character
-  int         Replace(PCTSTR p_old,PCTSTR p_new);
-  int         Replace(TCHAR  p_old,TCHAR  p_new);
+  int         Replace(LPCTSTR p_old,LPCTSTR p_new);
+  int         Replace(TCHAR   p_old,TCHAR   p_new);
   // Find last occurrence of a char
   int         ReverseFind(TCHAR p_char) const;
   // Get substring from the right 
-  SMX_String  Right(int p_length) const;
+  XString     Right(int p_length) const;
   // Set char at a position
   void        SetAt(int p_index,TCHAR p_char);
   // SetString interface
@@ -167,63 +174,61 @@ public:
   // Set string from a COM BSTR
   BSTR        SetSysString(BSTR* p_string);
   // Leftmost string (not) in argument
-  SMX_String  SpanExcluding(PCTSTR p_string);
-  SMX_String  SpanIncluding(PCTSTR p_string);
+  XString     SpanExcluding(LPCTSTR p_string) const;
+  XString     SpanIncluding(LPCTSTR p_string) const;
   // Length of the string
-  static int   StringLength (PCTSTR p_string);
+  static int  StringLength (LPCTSTR p_string);
   // Return tokenized strings
-  SMX_String  Tokenize(PCTSTR p_tokens,int& p_curpos) const;
+  XString     Tokenize(PCTSTR p_tokens,int& p_curpos) const;
   // Trim the string
-  SMX_String& Trim();
-  SMX_String& Trim(TCHAR  p_char);
-  SMX_String& Trim(PCTSTR p_string);
-  SMX_String& TrimLeft();
-  SMX_String& TrimLeft(TCHAR  p_char);
-  SMX_String& TrimLeft(PCTSTR p_string);
-  SMX_String& TrimRight();
-  SMX_String& TrimRight(TCHAR  p_char);
-  SMX_String& TrimRight(PCTSTR p_string);
+  XString&    Trim();
+  XString&    Trim(TCHAR  p_char);
+  XString&    Trim(LPCTSTR p_string);
+  XString&    TrimLeft();
+  XString&    TrimLeft(TCHAR  p_char);
+  XString&    TrimLeft(LPCTSTR p_string);
+  XString&    TrimRight();
+  XString&    TrimRight(TCHAR  p_char);
+  XString&    TrimRight(LPCTSTR p_string);
   // Truncate the string
   void        Truncate(int p_length);
 
   // OPERATORS
 
-  operator TCHAR*() const;
-  operator LPCTSTR() const;
-  SMX_String   operator+ (SMX_String& p_extra) const;
-  SMX_String   operator+=(SMX_String& p_extra);
-  SMX_String   operator+=(std::tstring& p_string);
-  SMX_String   operator+=(LPCTSTR p_extra);
-  SMX_String   operator =(const SMX_String& p_extra);
-  SMX_String   operator+=(const TCHAR p_char);
+  operator  LPTSTR() const;
+  operator  LPCTSTR() const;
+  XString   operator+ (const XString& p_extra);
+  XString   operator+ (LPCTSTR p_extra) const;
+  XString   operator+ (const TCHAR p_char) const;
+  XString&  operator+=(XString& p_extra);
+  XString&  operator+=(stdstring& p_string);
+  XString&  operator+=(LPCTSTR p_extra);
+  XString&  operator+=(const TCHAR p_char);
+  XString&  operator =(const XString& p_extra);
+  XString&  operator =(LPCTSTR p_string);
   // Extra conversion methods
-  int         AsInt();
-  long        AsLong();
-  unsigned    AsUnsigned();
-  INT64       AsInt64();
-  UINT64      AsUint64();
+  int       AsInt();
+  long      AsLong();
+  unsigned  AsUnsigned();
+  INT64     AsInt64();
+  UINT64    AsUint64();
 
-  void        SetNumber(int      p_number,int p_radix = 10);
-  void        SetNumber(unsigned p_number);
-  void        SetNumber(INT64    p_number);
-  void        SetNumber(UINT64   p_number);
+  void      SetNumber(int      p_number,int p_radix = 10);
+  void      SetNumber(unsigned p_number);
+  void      SetNumber(INT64    p_number);
+  void      SetNumber(UINT64   p_number);
 
 private:
-//   In CString these are in / for StringData 
-//   We do not use it here, as we do not use the same locking scheme
-//   in a std::string derived class
-//
-//   void      AddRef();
-//   bool      IsLocked();
-//   bool      IsShared();
-//   void      Release();
-//   void      Lock();
-//   void      Unlock();
-//   void      UnlockBuffer();
-// 
-//   // Extra data
-//   long      m_references;
+  // No extra private data
 };
+
+// Add _T("some string") + XString-object
+inline XString operator+(LPCTSTR lhs,const XString& rhs)
+{
+  XString result(lhs);
+  result += rhs;
+  return result;
+}
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -232,190 +237,136 @@ private:
 //
 //////////////////////////////////////////////////////////////////////////
 
-inline void SMX_String::Append(LPCTSTR p_string)
+inline void XString::Append(LPCTSTR p_string)
 {
   append(p_string);
 }
 
-inline void SMX_String::AppendChar(TCHAR p_char)
+inline void XString::AppendChar(TCHAR p_char)
 {
   push_back(p_char);
 }
 
-#ifndef UNICODE
-inline void SMX_String::AnsiToOem()
-{
-  // Only works for MBCS, not for Unicode
-  ::CharToOemBuff((LPCTSTR)c_str(),(LPSTR)c_str(),(DWORD)length());
-}
-#endif
-
-inline int SMX_String::Collate(LPCTSTR p_string)
+inline int XString::Collate(LPCTSTR p_string)
 {
   return _tcscoll(c_str(),p_string);
 }
 
-inline int SMX_String::CollateNoCase(LPCTSTR p_string)
+inline int XString::CollateNoCase(LPCTSTR p_string)
 {
   return _tcsicoll(c_str(),p_string);
 }
 
-inline int SMX_String::Compare(LPCTSTR p_string) const
+inline int XString::Compare(LPCTSTR p_string) const
 {
   return _tcscmp(c_str(),p_string);
 }
 
-inline int SMX_String::CompareNoCase(LPCTSTR p_string) const
+inline int XString::CompareNoCase(LPCTSTR p_string) const
 {
   return _tcsicmp(c_str(),p_string);
 }
 
-inline void SMX_String::Empty()
+inline void XString::Empty()
 {
   clear();
 }
 
-inline int SMX_String::Find(TCHAR p_char,int p_start /*= 0*/) const
+inline int XString::Find(TCHAR p_char,int p_start /*= 0*/) const
 {
   return (int) find(p_char,p_start);
 }
 
-inline int SMX_String::Find(LPCTSTR p_string,int p_start /*= 0*/) const
+inline int XString::Find(LPCTSTR p_string,int p_start /*= 0*/) const
 {
   return (int) find(p_string,p_start);
 }
 
-inline int SMX_String::FindOneOf(LPCTSTR p_string) const
+inline int XString::FindOneOf(LPCTSTR p_string) const
 {
   // Find on of the chars or -1 for not found
   return (int) find_first_of(p_string,0);
 }
 
-inline void SMX_String::FreeExtra()
+inline void XString::FreeExtra()
 {
   shrink_to_fit();
 }
 
-inline int SMX_String::GetLength() const
+inline int XString::GetLength() const
 {
   return (int)length();
 }
 
-inline PCTSTR SMX_String::GetString() const
+inline PCTSTR XString::GetString() const
 {
   return c_str();
 }
 
-inline int SMX_String::GetAt(int p_index) const
+inline int XString::GetAt(int p_index) const
 {
   return at(p_index);
 }
 
-inline unsigned  SMX_String::GetAllocLength() const
+inline unsigned  XString::GetAllocLength() const
 {
   return (unsigned)capacity();
 }
 
-inline bool SMX_String::IsEmpty() const
+inline bool XString::IsEmpty() const
 {
   return empty();
 }
 
-inline BOOL SMX_String::LoadString(HINSTANCE p_inst,UINT p_strID)
+inline BOOL XString::LoadString(HINSTANCE p_inst,UINT p_strID)
 {
   return LoadString(p_inst,p_strID,0);
 }
 
-inline void SMX_String::MakeReverse()
+inline void XString::OemToAnsi()
 {
-  _tcsrev((TCHAR*)c_str());
-}
-
-inline SMX_String SMX_String::Mid(int p_index) const
-{
-  return SMX_String(substr(p_index));
-}
-
-inline SMX_String SMX_String::Mid(int p_index,int p_length) const
-{
-  return SMX_String(substr(p_index,p_length));
-}
-
-#ifndef UNICODE
-inline void SMX_String::OemToAnsi()
-{
+#ifndef _UNICODE
   // Only works for MBCS, not for Unicode
-  ::OemToCharBuff(c_str(),(LPTSTR)c_str(),(DWORD)length());
-}
+  ::OemToCharBuff(c_str(),(LPSTR)c_str(),static_cast<DWORD>(length()));
 #endif
+}
 
-inline void SMX_String::Preallocate(int p_length)
+inline void XString::Preallocate(int p_length)
 {
   reserve(p_length);
 }
 
-inline int SMX_String::ReverseFind(TCHAR p_char) const
+inline int XString::ReverseFind(TCHAR p_char) const
 {
   return (int) find_last_of(p_char);
 }
 
-inline SMX_String& SMX_String::Trim()
+inline XString& XString::Trim()
 {
   return TrimLeft().TrimRight();
 }
 
-inline SMX_String& SMX_String::Trim(TCHAR p_char)
+inline XString& XString::Trim(TCHAR p_char)
 {
   return TrimLeft(p_char).TrimRight(p_char);
 }
 
-inline SMX_String& SMX_String::Trim(PCTSTR p_string)
+inline XString& XString::Trim(PCTSTR p_string)
 {
   return TrimLeft(p_string).TrimRight(p_string);
 }
 
-inline SMX_String& SMX_String::TrimLeft()
+inline XString& XString::TrimLeft()
 {
   return TrimLeft(' ');
 }
 
-inline SMX_String& SMX_String::TrimRight()
+inline XString& XString::TrimRight()
 {
   return TrimRight(' ');
 }
 
-inline void SMX_String::Truncate(int p_length)
+inline void XString::Truncate(int p_length)
 {
   erase(p_length);
 }
-
-// Now typedef this as a standard "String"
-typedef SMX_String String;
-
-// Use this typedef for a plugin-replacement of a MFC CString-only project
-// typedef SMX_String CString;
-
-// Use this in a std::string based project to override the standard string
-// #define string SMX_String
-}
-
-//////////////////////////////////////////////////////////////////////////
-//
-// StringData counterparts
-//
-//////////////////////////////////////////////////////////////////////////
-
-// inline bool String::IsLocked()
-// {
-//   return m_references < 0;
-// }
-// 
-// inline bool String::IsShared()
-// {
-//   return m_references > 0;
-// }
-//
-// inline void String::UnlockBuffer()
-// {
-//   // Unlock();
-// }

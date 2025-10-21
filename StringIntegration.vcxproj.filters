@@ -27,7 +27,10 @@
     <ClInclude Include="StringIntegration.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SMX_String.h">
+    <ClInclude Include="XString.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Conversions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -38,7 +41,10 @@
     <ClCompile Include="StringIntegration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SMX_String.cpp">
+    <ClCompile Include="XString.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Conversions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
