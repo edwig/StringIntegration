@@ -47,27 +47,10 @@ are now wrapped inside the new string class.
 
 Another winning property is that you can use it as a drop-in replacement.
 
-The new class is called “SMX_String” which stands for “Standard MFC eXtended String”. 
-The interface definition in the “SMX_String.h” file is ended with a choice of name overrides. 
+The new class is called “XString” which stands for “Standard MFC eXtended String”. 
+The interface definition in the “XString.h” file is ended with a choice of name overrides. 
 Here we choose a more handsome name to program in. The first case being just “String”, 
 as defined by a typdef.
-
-Just in case we have a project at hand with only a CString in it, we can rename the CString 
-with a typedef to our new class. We could even rename a “std::string” with a macro 
-(but that is not a nice solution).
-
-    // Now typedef this as a standard "String"
-    typedef SMX_String String;
-
-    // Use this typedef for a plugin-replacement of a MFC CString-only project
-    // typedef SMX_String CString;
-
-    // Use this in a std::string based project to override the standard string
-    // #define string SMX_String
-
-The end result: both sets of methods are accessible
-And there you have it. You can now have a project without MFC and a string class that can 
-do both the tricks of std::string and MFC::CString in one package.
 
 ### What’s not working
 
@@ -90,9 +73,5 @@ This library now supports compilation in Unicode-mode or in standard MBCS-mode
 Choose either one, but be carefull to use the Microsft agreed upon standards to use:
 TCHAR (instead of char), LPCTSTR (instead of 'const char*'), and std::wstring (instead of std::string)
 
-Well that’s about all. Have fun with the “SMX_String”!
-
-
-
-
+Well that’s about all. Have fun with the “XString”!
 
