@@ -4,10 +4,6 @@
 #include "resource.h"
 #include "XString.h"
 
-// The one and only application object
-
-using namespace std;
-
 int TestMethods()
 {
   int errors = 0;

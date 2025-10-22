@@ -134,7 +134,7 @@ public:
   void        ReleaseBuffer(int p_newLength = -1);
   void        ReleaseBufferSetLength(int p_newLength);
   // Getting the string
-  PCTSTR      GetString() const;
+  LPCTSTR     GetString() const;
   // Insert char or string
   int         Insert(int p_index,LPCTSTR p_string);
   int         Insert(int p_index,TCHAR   p_char);
@@ -143,7 +143,7 @@ public:
   // Taking the left side of the string
   XString     Left(int p_length) const;
   // Locking the buffer
-  PCTSTR      LockBuffer();
+  LPCTSTR     LockBuffer();
   // Load a string from the resources
   BOOL        LoadString(UINT p_strID);
   BOOL        LoadString(HINSTANCE p_inst,UINT p_strID);
@@ -169,8 +169,8 @@ public:
   // Set char at a position
   void        SetAt(int p_index,TCHAR p_char);
   // SetString interface
-  void        SetString(PCTSTR p_string);
-  void        SetString(PCTSTR p_string,int p_length);
+  void        SetString(LPCTSTR p_string);
+  void        SetString(LPCTSTR p_string,int p_length);
   // Set string from a COM BSTR
   BSTR        SetSysString(BSTR* p_string);
   // Leftmost string (not) in argument
@@ -179,7 +179,7 @@ public:
   // Length of the string
   static int  StringLength (LPCTSTR p_string);
   // Return tokenized strings
-  XString     Tokenize(PCTSTR p_tokens,int& p_curpos) const;
+  XString     Tokenize(LPCTSTR p_tokens,int& p_curpos) const;
   // Trim the string
   XString&    Trim();
   XString&    Trim(TCHAR  p_char);
@@ -195,13 +195,13 @@ public:
 
   // OPERATORS
 
-  operator  LPTSTR() const;
+  operator  LPTSTR()  const;
   operator  LPCTSTR() const;
-  XString   operator+ (const XString& p_extra);
+  XString   operator+ (const XString& p_extra) const;
   XString   operator+ (LPCTSTR p_extra) const;
   XString   operator+ (const TCHAR p_char) const;
   XString&  operator+=(XString& p_extra);
-  XString&  operator+=(stdstring& p_string);
+  XString&  operator+=(const stdstring& p_string);
   XString&  operator+=(LPCTSTR p_extra);
   XString&  operator+=(const TCHAR p_char);
   XString&  operator =(const XString& p_extra);
@@ -298,7 +298,7 @@ inline int XString::GetLength() const
   return (int)length();
 }
 
-inline PCTSTR XString::GetString() const
+inline LPCTSTR XString::GetString() const
 {
   return c_str();
 }
@@ -351,7 +351,7 @@ inline XString& XString::Trim(TCHAR p_char)
   return TrimLeft(p_char).TrimRight(p_char);
 }
 
-inline XString& XString::Trim(PCTSTR p_string)
+inline XString& XString::Trim(LPCTSTR p_string)
 {
   return TrimLeft(p_string).TrimRight(p_string);
 }

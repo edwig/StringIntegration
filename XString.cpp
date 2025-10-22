@@ -226,6 +226,8 @@ XString::Format(UINT p_strID,...)
   va_end(argList);
 }
 
+#pragma warning(push)
+#pragma warning(disable:4840)
 void
 XString::Format(XString p_format,...)
 {
@@ -236,6 +238,7 @@ XString::Format(XString p_format,...)
 
   va_end(argList);
 }
+#pragma warning(pop)
 
 // Format a variable list
 void 
@@ -455,7 +458,7 @@ XString::LoadString(HINSTANCE p_inst,UINT p_strID,WORD p_languageID)
 
 // Lock the buffer returning the string
 // Does not exactly what CString does!!
-PCTSTR 
+LPCTSTR 
 XString::LockBuffer()
 {
   // Lock();
@@ -609,7 +612,7 @@ XString::SetAt(int p_index,TCHAR p_char)
 
 // SetString interface
 void 
-XString::SetString(PCTSTR p_string)
+XString::SetString(LPCTSTR p_string)
 {
   if(p_string == nullptr)
   {
@@ -631,7 +634,7 @@ XString::SetString(PCTSTR p_string)
 }
 
 void 
-XString::SetString(PCTSTR p_string,int p_length)
+XString::SetString(LPCTSTR p_string,int p_length)
 {
   if(p_string == nullptr)
   {
@@ -697,7 +700,7 @@ XString::SpanIncluding(LPCTSTR p_string) const
 
 // Length of the string
 int 
-XString::StringLength(PCTSTR p_string)
+XString::StringLength(LPCTSTR p_string)
 {
   if(p_string == nullptr)
   {
@@ -708,7 +711,7 @@ XString::StringLength(PCTSTR p_string)
 
 // Return tokenized strings
 XString 
-XString::Tokenize(PCTSTR p_tokens,int& p_curpos) const
+XString::Tokenize(LPCTSTR p_tokens,int& p_curpos) const
 {
   if(p_curpos < 0)
   {
@@ -723,8 +726,8 @@ XString::Tokenize(PCTSTR p_tokens,int& p_curpos) const
   }
   else
   {
-    PCTSTR pszPlace = c_str() + p_curpos;
-    PCTSTR pszEnd   = c_str() + size();
+    LPCTSTR pszPlace = c_str() + p_curpos;
+    LPCTSTR pszEnd   = c_str() + size();
     if(pszPlace < pszEnd)
     {
       int nIncluding = (int)_tcsspn(pszPlace,p_tokens);
@@ -752,7 +755,7 @@ XString&
 XString::TrimLeft(TCHAR p_char)
 {
   int count = 0;
-  PCTSTR str = c_str();
+  LPCTSTR str = c_str();
   while(*str && *str == p_char)
   {
     ++str;
@@ -764,7 +767,7 @@ XString::TrimLeft(TCHAR p_char)
 }
 
 XString& 
-XString::TrimLeft(PCTSTR p_string)
+XString::TrimLeft(LPCTSTR p_string)
 {
   // if we're not trimming anything, we're not doing any work
   if((p_string == nullptr) || (*p_string == 0))
@@ -772,7 +775,7 @@ XString::TrimLeft(PCTSTR p_string)
     return(*this);
   }
 
-  PCTSTR psz = c_str();
+  LPCTSTR psz = c_str();
   while((*psz != 0) && (_tcschr(p_string,*psz) != NULL)) ++psz;
 
   if(psz != c_str())
@@ -808,7 +811,7 @@ XString& XString::TrimRight(TCHAR p_char)
 }
 
 XString& 
-XString::TrimRight(PCTSTR p_string)
+XString::TrimRight(LPCTSTR p_string)
 {
   // if we're not trimming anything, we're not doing any work
   if((p_string == nullptr) || (*p_string == 0))
@@ -874,7 +877,7 @@ XString::operator LPCTSTR() const
 }
 
 XString
-XString::operator+(const XString& p_extra)
+XString::operator+(const XString& p_extra) const
 {
   XString total(c_str());
   total.append(p_extra);
@@ -890,7 +893,7 @@ XString::operator+(LPCTSTR p_extra) const
 }
 
 XString
-XString::operator+ (const TCHAR p_char) const
+XString::operator+(const TCHAR p_char) const
 {
   XString string(c_str());
   string.append(1,p_char);
@@ -905,7 +908,7 @@ XString::operator+=(XString& p_extra)
 }
 
 XString&
-XString::operator+=(stdstring& p_string)
+XString::operator+=(const stdstring& p_string)
 {
   append(p_string);
   return *this;
